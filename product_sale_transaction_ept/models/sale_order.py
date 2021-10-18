@@ -16,11 +16,23 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        - This is the create method which is used for creating the ir.sequence code for the sale order.
+        :param vals: This is the parameter which is stored the values in the form of dictionary.
+        :return: at last returning the super statement after creating the ir.sequence.
+        """
         vals['name'] = self.env['ir.sequence'].next_by_code('sale.order.ept') or ('New')
         return super(SaleOrder, self).create(vals)
 
     @api.depends('order_line_ids')
     def _compute_order_total(self):
+        """
+        _compute_order_total....It is depends on the order_line_ids field...
+        - This the compute method which is created for to compute the total orders using iteration of the
+          self.order_line_ids for getting the order_lines...after that adding the subtotal_without_tax for
+          getting order_total.
+        :return: Nothing to return
+        """
         order_total = 0
         for order_line in self.order_line_ids:
             order_total += order_line.subtotal_without_tax

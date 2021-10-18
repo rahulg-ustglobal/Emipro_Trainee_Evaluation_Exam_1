@@ -17,11 +17,28 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def create(self, values):
+        """
+        :param values: This values is the parameter of the create method,
+                       It will accept the values in the the form of dictionary
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        UserError : This is the validation which is checking the values of
+                    the unit_price which is less than or equal to the zero then
+                    generate the User validation error as follows.
+        """
         if values['unit_price'] <= 0:
             raise UserError("Please enter a Unit Price!")
         return super(SaleOrderLine, self).create(values)
 
     @api.depends('qty', 'product_id.price')
     def _compute_subtotal_without_tax(self):
+        """
+        _compute_subtotal_without_tax : This is the compute method which is created for calculating the
+                                        subtotal_without_tax...This method is depends on the two fields like
+                                        qty and product_id.price...after that we are iterating the self for
+                                        getting the lines from the self for calculating the subtotal_without_tax..
+                                        we will get qty and unit_price using iterating...
+        :return: Nothing to return
+        """
         for line in self:
             line.subtotal_without_tax = line.qty * line.unit_price

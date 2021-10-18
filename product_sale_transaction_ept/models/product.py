@@ -13,12 +13,31 @@ class Product(models.Model):
 
     @api.model
     def create(self, values):
+        """
+        :param values: This values is the parameter of the create method,
+                       It will accept the values in the the form of dictionary
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        UserError : This is the validation which is checking the values of
+                    the price which is less than or equal to the zero then
+                    generate the User validation error as follows.
+        """
         if values['price'] <= 0:
             raise UserError("Please enter a price!")
         return super(Product, self).create(values)
 
     # @api.model
     def write(self, values):
+        """
+        :param values: This values is the parameter of the write method,
+                       It will accept the values in the the form of updated values.
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        UserError : This is the validation which is checking the values of
+                    the price which is less than or equal to the zero then
+                    generate the User validation error as follows.
+        """
+
         if values['price'] <= 0:
             raise UserError("Please enter a price!")
         return super(Product, self).write(values)

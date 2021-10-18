@@ -14,22 +14,59 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, values):
+        """
+        :param values: This values is the parameter of the create method,
+                       It will accept the values in the the form of dictionary
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        UserError : This is the validation which is checking the values of
+                    the followup_days which is less than or equal to the zero then
+                    generate the User validation error as follows.
+        """
         if values['followup_days'] <= 0:
             raise UserError("Please enter a Follow Up Date!")
         return super(ResPartner, self).create(values)
 
     def write(self, values):
+        """
+        :param values: This values is the parameter of the write method,
+                       It will accept the values in the the form of currently updated values.
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        UserError : This is the validation which is checking the values of
+                    the followup_days which is less than or equal to the zero then
+                    generate the User validation error as follows.
+        """
         if not values:
             if values['followup_days'] <= 0:
                 raise UserError("Please enter a Follow Up Date!")
         return super(ResPartner, self).write(values)
 
     def _compute_visit_count(self):
+        """
+        field_visit_count: This is the field which is compute field and the compute field name is
+                           _compute_visit_count which will calculate the visit_count which the help of
+                           compute field.
+        :return: Nothing to return.
+        self : self is the object and we are iterating it with the help of for loop for getting the partner_id.
+        and with adding the domain with the search method given as follows.
+        """
         for partner in self:
             partner_ids = self.env['field.visit.ept'].search([('partner_id', '=', partner.id)])
             partner.field_visit_count = len(partner_ids.ids)
 
     def action_view_field_visits(self):
+        """
+        action_view_field_visits : This is the object type of button button box which is created because we have to
+                                   show the list and form view according to the condition.
+        partner_ids : This is the variable which is used to store the partner Id using domain with search method.
+        view_tree_id : This is the tree view id which store the tree view id with getting the reference with
+                      module_name.tree_view_xml_id.
+        view_form_id : This is the form view id which store the form view id with getting the reference with
+                      module_name.form_view_xml_id.
+        action : this is the user defined/created dictionary for getting the fields of the xml file.
+        :return: at last returning the action after getting the user defined dictionary.
+        """
         partner_ids = self.env['field.visit.ept'].search([('partner_id', '=', self.id)])
         view_tree_id = self.env.ref('product_sale_transaction_ept.view_field_visit_tree').id
         view_form_id = self.env.ref('product_sale_transaction_ept.view_field_visit_form').id

@@ -6,6 +6,14 @@ class SaleOrder(models.TransientModel):
     _description = "Sale Order"
 
     def action_product_stock(self):
+        """
+        action_product_stock : This is the action which is used to show the product stock...and it
+                               is the wizard which will generate the sale order using button which having the
+                               object type and getting the sale_order_values....and will generate the order...
+        active_id : This is the active id which is store the id of the current active record...
+        sale_order_line_list : This will store the sale order line in the from of list...
+        sale_order_values : This is the sale order values in the form of dictionary...
+        """
         field_visit = self.env['field.visit.ept'].browse(self._context.get('active_id'))
         sale_order_line_list = list()
         for field_line in field_visit.field_visit_line_ids:

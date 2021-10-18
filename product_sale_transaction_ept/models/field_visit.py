@@ -19,10 +19,22 @@ class FieldVisit(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        :param vals: This vals is the parameter of the create method,
+                     It will accept the values in the the form of dictionary
+        :return: It is returning the super statement.
+        :self : This is called as browse object
+        """
         vals['name'] = self.env['ir.sequence'].next_by_code('field.visit.ept') or ('New')
         return super(FieldVisit, self).create(vals)
 
     def write(self, vals):
+        """
+        :param vals: This is the vals of the write method which is accept the updated values
+        :return: This is called as return of the super statement.
+        self : This is called as browse object of the write statement.
+        """
+
         if vals:
             if 'visit_log' in vals.keys():
                 if self.state == 'Completed' and vals['visit_log'] == '':
@@ -31,6 +43,13 @@ class FieldVisit(models.Model):
         return super(FieldVisit, self).write(vals)
 
     def action_complete(self):
+        """
+        visit_date:This is the variable which is accept the visit_date.
+        partner:This is the variable which is accept/store the partner_id.
+        next_visit_date:for this variable we are calculating the next visit
+                        date with the help of visit date and datetime.
+        :return: we are returning nothing in the write method.
+        """
         visit_date = self.visit_date
         partner = self.partner_id
         partner.next_visit_date = visit_date + datetime.timedelta(days=partner.followup_days)
