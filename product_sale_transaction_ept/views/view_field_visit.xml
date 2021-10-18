@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_field_visit_tree" model="ir.ui.view">
+        <field name="name">field.visit.ept.tree</field>
+        <field name="model">field.visit.ept</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="visit_date"/>
+                <field name="state"/>
+                <field name="visit_log"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_field_visit_search" model="ir.ui.view">
+        <field name="name">field.visit.ept.search</field>
+        <field name="model">field.visit.ept</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_date"/>
+                <field name="state"/>
+                <field name="visit_log"/>
+            </search>
+        </field>
+    </record>
+
+
+
+    <record id="view_field_visit_form" model="ir.ui.view">
+        <field name="name">field.visit.ept.form</field>
+        <field name="model">field.visit.ept</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" options="{'clickable': '1'}" widget="statusbar"/>
+                    <button id="action_complete" name="action_complete" string="Complete" class="btn-primary"
+                            type="object" states="Draft,Cancel"/>
+                    <button id="button_generate_sale_order"
+                            name="%(create_sale_order)d"
+                            string="Generate Sale Order"
+                            class="btn-primary"
+                            type="action"
+                            states="Completed"
+                            />
+                </header>
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="visit_date"/>
+                            <field name="visit_log"/>
+                            <field name="user_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Field Visit Line">
+                            <field name="field_visit_line_ids">
+                                <tree editable="top">
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id"/>
+                                    <!--                                    <field name="field_visit_id"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_field_visit" model="ir.actions.act_window">
+        <field name="name">Field Visit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">field.visit.ept</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Your First Field Visit!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_sale_transaction_main"
+              name="Sale Transaction"
+              sequence="5"/>
+
+    <menuitem id="menu_sale_transaction_sub"
+              name="Category"
+              parent="menu_sale_transaction_main"
+    />
+
+    <menuitem id="menu_field_visit_root"
+              name="Field Visit"
+              parent="menu_sale_transaction_sub"
+              action="action_field_visit"
+              sequence="10"/>
+
+</odoo>

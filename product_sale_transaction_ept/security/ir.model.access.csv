@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_uom_ept,product.uom.ept,model_product_uom_ept,,1,1,1,1
+access_product_ept,product.ept,model_product_ept,,1,1,1,1
+access_res_partner_ept,res.partner.ept,model_res_partner_ept,,1,1,1,1
+access_field_visit_ept,field.visit.ept,model_field_visit_ept,,1,1,1,1
+access_field_visit_line_ept,field.visit.line.ept,model_field_visit_line_ept,,1,1,1,1
+access_sale_order_ept,sale.order.ept,model_sale_order_ept,,1,1,1,1
+access_sale_order_line_ept,sale.order.line.ept,model_sale_order_line_ept,,1,1,1,1
+
+access_sale_order_tre,sale.order.tre,model_sale_order_tre,,1,1,1,1
+
+
+
