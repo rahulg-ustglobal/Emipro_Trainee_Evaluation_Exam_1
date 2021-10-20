@@ -5,6 +5,23 @@ class SaleOrder(models.TransientModel):
     _name = "sale.order.tre"
     _description = "Sale Order"
 
+    ##---------------------------------------------------------------##
+
+    name = fields.Char(string='Field Visit', help="Takes Field Visit", required=True, default='New Visit',
+                       readonly=True)
+
+    @api.model
+    def default_get(self, fields):
+        res = super(SaleOrder, self).default_get(fields)
+        field_visit = self.env['field.visit.ept'].browse(self._context.get('active_id'))
+
+        res.update({
+            'name': field_visit.name
+        })
+        return res
+
+    ##---------------------------------------------------------------##
+
     def action_product_stock(self):
         """
         action_product_stock : This is the action which is used to show the product stock...and it

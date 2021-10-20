@@ -10,7 +10,7 @@ class SaleOrderLine(models.Model):
     uom_id = fields.Many2one(comodel_name='product.uom.ept', required=True)
     unit_price = fields.Float(string="Unit price", help='Takes unit Price', digits=(6, 2))
     sale_order_id = fields.Many2one(comodel_name='sale.order.ept')
-    subtotal_without_tax = fields.Float(string="subtotal without tax", help='Takes subtotal without tax',
+    subtotal_without_tax = fields.Float(string="Subtotal Without Tax", help='Takes subtotal without tax',
                                         digits=(6, 2), compute='_compute_subtotal_without_tax', store=True)
 
     qty = fields.Integer(string='Qty', help='Takes Qty')

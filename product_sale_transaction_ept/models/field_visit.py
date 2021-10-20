@@ -7,13 +7,15 @@ class FieldVisit(models.Model):
     _name = "field.visit.ept"
     _description = "Field Visit"
 
-    name = fields.Char(string='product Name', help="Takes Product Name", required=True, default='New Visit')
+    name = fields.Char(string='Field Visit', help="Takes Field Visit", required=True, default='New Visit')
     user_id = fields.Many2one(comodel_name='res.users', string="User ID",
                               help="This field will accept the User ID")
     partner_id = fields.Many2one(comodel_name='res.partner.ept')
     field_visit_line_ids = fields.One2many(comodel_name='field.visit.line.ept', inverse_name='field_visit_id')
     visit_date = fields.Date(string='Visit Date', help='Takes visit date', default=fields.date.today())
-    state = fields.Selection([('Draft', 'Draft'), ('Completed', 'Completed'), ('Cancel', 'Cancel')],
+    state = fields.Selection([('Draft', 'Draft'),
+                              ('Completed', 'Completed'),
+                              ('Cancel', 'Cancel')],
                              default='Draft', string="Status", required=True)
     visit_log = fields.Text(string='Visit Log', help='Takes visit log')
 

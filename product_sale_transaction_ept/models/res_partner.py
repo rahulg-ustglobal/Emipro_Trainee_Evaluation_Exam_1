@@ -74,9 +74,61 @@ class ResPartner(models.Model):
         action = {
             'name': _('Field Visits'),
             'type': 'ir.actions.act_window',
-            'views': [[view_tree_id, 'tree'], [view_form_id, 'form']],
-            'domain': [('id', 'in', partner_ids.ids)],
-            'res_model': 'field.visit.ept',
-            'view_mode': 'tree,form',
+            'res_model': 'field.visit.ept'
         }
+        ##--------------------------------------------------------##
+
+        if partner_ids == 1:
+            action.update({
+                'view_mode': 'form',
+                'views': [[view_form_id, 'form']],
+                'res_id': partner_ids[0]
+            })
+        else:
+            action.update({
+                'view_mode': 'tree,form',
+                'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+                'domain': [('id', 'in', partner_ids.ids)]
+            })
+        ##--------------------------------------------------------##
         return action
+
+    ##--------------------------------------------------------##
+    # def action_view_field_visits(self):
+    #     partner_ids = self.env['field.visit.ept'].search([('partner_id', '=', self.id)])
+    #     view_tree_id = self.env.ref('product_sale_transaction_ept.view_field_visit_tree').id
+    #     view_form_id = self.env.ref('product_sale_transaction_ept.view_field_visit_form').id
+    #
+    #     action = {
+    #         'name': _('Field Visits'),
+    #         'type': 'ir.actions.act_window',
+    #         'views': [[view_tree_id, 'tree'], [view_form_id, 'form']],
+    #         'domain': [('id', 'in', partner_ids.ids)],
+    #         'res_model': 'field.visit.ept',
+    #         'view_mode': 'tree,form',
+    #     }
+    #     return action
+    ##--------------------------------------------------------##
+    # def action_delivery_order(self):
+    #     pickings = self.picking_ids.ids
+    #     view_id = self.env.ref('sale_ept.view_stock_picking_tree').id
+    #     view_form_id = self.env.ref('sale_ept.view_stock_picking_form').id
+    #     action = {
+    #         'type': 'ir.actions.act_window',
+    #         'name': _('Delivery Order'),
+    #         'res_model': 'stock.picking.ept',
+    #     }
+    #     if len(pickings) == 1:
+    #         action.update({
+    #             'view_mode': 'form',
+    #             'views': [[view_form_id, 'form']],
+    #             'res_id': pickings[0]
+    #         })
+    #     else:
+    #         action.update({
+    #             'view_mode': 'tree,form',
+    #             # 'views': [[view_id, 'tree']],
+    #             'views': [(view_id, 'tree'), (view_form_id, 'form')],
+    #             'domain': [('sale_order_id', 'in', [self.id])],
+    #         })
+    #     return action

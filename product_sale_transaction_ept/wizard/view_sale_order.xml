@@ -5,6 +5,13 @@
         <field name="model">sale.order.tre</field>
         <field name="arch" type="xml">
             <form string="Sale Order">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
                 <footer>
                     <button name="action_product_stock" string="Create Sales Order" type="object" class="btn-primary"/>
                     <button name="cancel" string="Cancel" special="cancel" class="oe_link"/>
