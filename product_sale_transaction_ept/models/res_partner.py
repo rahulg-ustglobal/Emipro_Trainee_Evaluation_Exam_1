@@ -67,7 +67,7 @@ class ResPartner(models.Model):
         action : this is the user defined/created dictionary for getting the fields of the xml file.
         :return: at last returning the action after getting the user defined dictionary.
         """
-        partner_ids = self.env['field.visit.ept'].search([('partner_id', '=', self.id)])
+        partner_ids = self.env['field.visit.ept'].search([('partner_id', '=', self.id)]).ids
         view_tree_id = self.env.ref('product_sale_transaction_ept.view_field_visit_tree').id
         view_form_id = self.env.ref('product_sale_transaction_ept.view_field_visit_form').id
 
@@ -78,20 +78,22 @@ class ResPartner(models.Model):
         }
         ##--------------------------------------------------------##
 
-        if partner_ids == 1:
+        if len(partner_ids) > 1:
+            action.update({
+                'view_mode': 'tree,form',
+                'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+                'domain': [('id', 'in', partner_ids)]
+            })
+        elif len(partner_ids) == 1:
             action.update({
                 'view_mode': 'form',
                 'views': [[view_form_id, 'form']],
                 'res_id': partner_ids[0]
             })
         else:
-            action.update({
-                'view_mode': 'tree,form',
-                'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-                'domain': [('id', 'in', partner_ids.ids)]
-            })
-        ##--------------------------------------------------------##
+            raise UserError("Field Visits Is Empty!!")
         return action
+        ##--------------------------------------------------------##
 
     ##--------------------------------------------------------##
     # def action_view_field_visits(self):
